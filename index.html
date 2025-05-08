@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Problema del Ebrio</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary: #10b981;
+        --primary-hover: #059669;
+        --background: linear-gradient(45deg, #f0fdf4, #f0fdfa);
+        --surface: #ffffff;
+      }
+
+      body {
+        font-family: 'Poppins', sans-serif;
+        margin: 0;
+        padding: 0;
+        background: var(--background);
+        color: #334155;
+        min-height: 100vh;
+      }
+
+      .contenedor {
+        max-width: 800px;
+        margin: 2rem auto;
+        padding: 2.5rem;
+        background: var(--surface);
+        border-radius: 1.5rem;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        border: 1px solid #d1fae5;
+        position: relative;
+        background-image: radial-gradient(
+            circle at 100% 100%,
+            #f0fdf4 0%,
+            transparent 15%
+          ),
+          radial-gradient(circle at 0% 0%, #f0fdf4 0%, transparent 15%);
+      }
+
+      h1 {
+        color: var(--primary);
+        font-size: 2.5rem;
+        margin-bottom: 1.5rem;
+        position: relative;
+        display: inline-block;
+        text-shadow: 1px 1px 2px rgba(16, 185, 129, 0.1);
+      }
+
+      h1::after {
+        content: '';
+        position: absolute;
+        bottom: -8px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60px;
+        height: 3px;
+        background: var(--primary);
+        border-radius: 2px;
+      }
+
+      p {
+        font-size: 1.1rem;
+        line-height: 1.8;
+        color: #64748b;
+        margin-bottom: 2rem;
+      }
+
+      button {
+        padding: 1rem 2.5rem;
+        font-size: 1.1rem;
+        background: linear-gradient(
+          135deg,
+          var(--primary),
+          var(--primary-hover)
+        );
+        color: white;
+        border: none;
+        border-radius: 0.75rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.2);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-weight: 600;
+        position: relative;
+        overflow: hidden;
+      }
+
+      button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 15px -3px rgba(16, 185, 129, 0.3);
+      }
+
+      button::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          120deg,
+          transparent,
+          rgba(255, 255, 255, 0.3),
+          transparent
+        );
+        transition: 0.5s;
+      }
+
+      button:hover::before {
+        left: 100%;
+      }
+
+      #resultado {
+        margin: 2rem 0;
+        padding: 1.5rem;
+        background: #ecfdf5;
+        border-radius: 0.75rem;
+        font-size: 1.25rem;
+        color: #065f46;
+        border-left: 4px solid var(--primary);
+      }
+
+      canvas {
+        margin: 2rem auto;
+        border: 1px solid #d1fae5;
+        border-radius: 1rem;
+        background: #ffffff;
+        box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.05);
+        width: 500px;
+        height: 500px;
+        display: block;
+      }
+
+      .footer {
+        text-align: center;
+        margin-top: 3rem;
+        padding: 1.5rem;
+        color: #047857;
+        font-size: 0.9rem;
+        border-top: 1px solid #d1fae5;
+        background: rgba(209, 250, 229, 0.3);
+      }
+
+      strong {
+        color: var(--primary);
+        font-weight: 600;
+      }
+
+      @media (max-width: 768px) {
+        .contenedor {
+          margin: 1rem;
+          padding: 1.5rem;
+        }
+
+        h1 {
+          font-size: 2rem;
+        }
+
+        canvas {
+          width: 100% !important;
+          max-width: 400px;
+          height: auto !important;
+          aspect-ratio: 1;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="contenedor">
+      <h1>Problema del Ebrio</h1>
+      <p>
+        Este simulador calcula la probabilidad de que un ebrio, partiendo de una
+        esquina, termine su recorrido a <strong>dos calles</strong> de donde
+        comenzó tras caminar exactamente <strong>10 calles</strong> en
+        direcciones aleatorias. Además, se muestra un gráfico del recorrido.
+      </p>
+      <button id="simular">Iniciar Simulación</button>
+      <div id="resultado">Presiona el botón para ver los resultados</div>
+      <canvas id="graficoRecorrido" width="500" height="500"></canvas>
+    </div>
+
+    <div class="footer">
+      Pablo Velasquez 28.391.153. Raymond Rendiles 30.860.542.
+    </div>
+
+    <script>
+      function simularCaminataEbrio(calles, intentos) {
+        let intentosExitosos = 0;
+        const ultimoRecorrido = [];
+
+        for (let i = 0; i < intentos; i++) {
+          let x = 0,
+            y = 0;
+          let pasosTotales = 0;
+          const recorrido = [[x, y]];
+
+          while (pasosTotales < calles) {
+            const direccion = Math.floor(Math.random() * 4);
+            switch (direccion) {
+              case 0:
+                y++;
+                break; // Norte
+              case 1:
+                y--;
+                break; // Sur
+              case 2:
+                x++;
+                break; // Este
+              case 3:
+                x--;
+                break; // Oeste
+            }
+            recorrido.push([x, y]);
+            pasosTotales++;
+          }
+
+          const distancia = Math.abs(x) + Math.abs(y);
+          if (distancia === 2) intentosExitosos++;
+
+          if (i === intentos - 1) {
+            recorrido.forEach((paso) => ultimoRecorrido.push(paso));
+          }
+        }
+
+        return {
+          probabilidad: (intentosExitosos / intentos) * 100,
+          ultimoRecorrido,
+        };
+      }
+
+      function dibujarRecorrido(recorrido, idCanvas) {
+        const canvas = document.getElementById(idCanvas);
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        const inicioX = canvas.width / 2;
+        const inicioY = canvas.height / 2;
+        const escala = 25;
+
+        // Punto inicial
+        ctx.fillStyle = '#10B981';
+        ctx.beginPath();
+        ctx.arc(inicioX, inicioY, 6, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Línea del recorrido
+        ctx.strokeStyle = 'rgba(16, 185, 129, 0.6)';
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.moveTo(inicioX, inicioY);
+
+        let actualX = inicioX;
+        let actualY = inicioY;
+
+        recorrido.forEach(([dx, dy], indice) => {
+          const siguienteX = inicioX + dx * escala;
+          const siguienteY = inicioY - dy * escala;
+
+          // Dibujar línea
+          ctx.lineTo(siguienteX, siguienteY);
+          ctx.stroke();
+
+          // Etiquetas de pasos
+          ctx.fillStyle = '#334155';
+          ctx.font = '11px Poppins';
+          ctx.fillText(indice + 1, siguienteX + 6, siguienteY - 6);
+
+          actualX = siguienteX;
+          actualY = siguienteY;
+        });
+
+        // Punto final
+        ctx.fillStyle = '#059669';
+        ctx.beginPath();
+        ctx.arc(actualX, actualY, 6, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Etiquetas
+        ctx.fillStyle = '#10B981';
+        ctx.font = '14px Poppins';
+        ctx.fillText('Inicio', inicioX + 12, inicioY - 8);
+        ctx.fillStyle = '#059669';
+        ctx.fillText('Fin', actualX + 12, actualY - 8);
+      }
+
+      document.getElementById('simular').addEventListener('click', () => {
+        const { probabilidad, ultimoRecorrido } = simularCaminataEbrio(
+          10,
+          10000
+        );
+
+        document.getElementById(
+          'resultado'
+        ).innerHTML = `En 10,000 simulaciones, probabilidad estimada: <strong>${probabilidad.toFixed(
+          2
+        )}%</strong>`;
+
+        dibujarRecorrido(ultimoRecorrido, 'graficoRecorrido');
+      });
+    </script>
+  </body>
+</html>
