@@ -1,0 +1,142 @@
+/* Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(to right, #f8f9fa, #e9ecef);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  color: #333;
+}
+
+.container {
+  background: white;
+  padding: 30px 40px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 500px;
+  text-align: center;
+  transition: all 0.3s ease-in-out;
+  position: relative;
+}
+
+.container:hover {
+  transform: translateY(-5px);
+}
+
+.container h1 {
+  color: #007bff; /* Se sobreescribe en cada página */
+}
+
+h1 {
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+  color: #007bff;
+}
+
+.equation {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+
+form label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 8px;
+  text-align: left;
+}
+
+form input[type='number'] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: border-color 0.3s;
+}
+
+form input[type='number']:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+form button {
+  width: 100%;
+  padding: 12px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+form button:hover {
+  transform: translateY(-2px);
+}
+
+#results {
+  margin-top: 25px;
+  text-align: left;
+  font-size: 1rem;
+}
+
+#results p {
+  margin-bottom: 10px;
+}
+
+.arrow-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: #007bff;
+  color: white;
+  font-size: 2rem;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease-in-out;
+}
+
+.arrow-button:hover {
+  transform: translateY(-50%) scale(1.1);
+}
+
+.left-arrow {
+  left: -55px;
+}
+
+.right-arrow {
+  right: -50px;
+}
+
+.footer {
+  margin-top: 40px; /* Espacio entre el contenido y el footer */
+  padding: 15px;
+  background-color: #f1f1f1; /* Fondo claro para el footer */
+  color: #555; /* Texto oscuro */
+  font-size: 0.9rem; /* Tamaño de fuente más pequeño */
+  text-align: center; /* Centrar el texto */
+  border: 2px solid #333; /* Borde pronunciado */
+  border-radius: 8px; /* Bordes redondeados (opcional) */
+}
+
+.footer p {
+  margin: 0;
+}

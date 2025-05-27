@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Integral 1 - Método de Monte Carlo</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6 "></script>
+    <script
+      id="MathJax-script"
+      async
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+    ></script>
+  </head>
+  <body>
+    <div class="container" style="background-color: #e9f7ff">
+      <h1 style="color: #007bff">Método de Monte Carlo</h1>
+      <h1 style="color: #007bff">Cedula Termina en 1, 2, 3.</h1>
+      <p class="equation">
+        Integral a aproximar: $$ \int_{2}^{3} \left( 3x + 2\frac{1}{3}\ln 16
+        \right) dx $$
+      </p>
+
+      <!-- Flecha derecha hacia integral2.html -->
+      <a
+        href="integral2.html"
+        class="arrow-button right-arrow"
+        style="background-color: #007bff"
+        >→
+      </a>
+
+      <form id="simulationForm">
+        <label for="simulations">Número de Simulaciones:</label>
+        <input
+          type="number"
+          id="simulations"
+          name="simulations"
+          min="1"
+          required
+          placeholder="Ejemplo: 10000"
+        />
+        <button type="submit" style="background-color: #007bff">
+          Calcular Resultados
+        </button>
+      </form>
+
+      <div id="results">
+        <p>
+          <strong>Resultado Matemático:</strong>
+          <span id="mathematicalResult">-</span>
+        </p>
+        <p>
+          <strong>Resultado Aproximado (Monte Carlo):</strong>
+          <span id="monteCarloResult">-</span>
+        </p>
+        <p>
+          <strong>Porcentaje de Error:</strong>
+          <span id="errorPercentage">-</span>
+        </p>
+      </div>
+
+      <footer class="footer">
+        <p>Pablo Velasquez. 28.391.153. Raymond Rendiles 30.860.542.</p>
+      </footer>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
